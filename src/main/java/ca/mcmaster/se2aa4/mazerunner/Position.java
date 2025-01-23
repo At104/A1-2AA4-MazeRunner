@@ -17,11 +17,11 @@ public class Position {
         return col;
     }
 
-    public void setRow(int row) {
+    public void setX(int row) {
         this.row = row;
     }
 
-    public void setCol(int col) {
+    public void setY(int col) {
         this.col = col;
     }
 }

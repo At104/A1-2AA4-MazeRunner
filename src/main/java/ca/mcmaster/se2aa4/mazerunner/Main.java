@@ -15,6 +15,8 @@ public class Main {
         options.addOption("i", true, "Maze file argument");
 
         CommandLineParser parser = new DefaultParser();
+
+        //TODO: Implement the abstractions once the code is refactored
         try {
             CommandLine cmd = parser.parse(options, args);
 
