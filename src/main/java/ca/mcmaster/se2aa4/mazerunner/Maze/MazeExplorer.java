@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner.Maze;
 
+
 import ca.mcmaster.se2aa4.mazerunner.Direction;
 import ca.mcmaster.se2aa4.mazerunner.Position;
 import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
@@ -64,5 +65,7 @@ public class MazeExplorer {
                !maze.isWall(position);
     }
 
-
+    public String getPath() {
+        return path.getInstructions();
+    }
 }

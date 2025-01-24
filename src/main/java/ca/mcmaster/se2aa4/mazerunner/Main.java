@@ -1,10 +1,13 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeExplorer;
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
+import ca.mcmaster.se2aa4.mazerunner.Maze.MazeSolver;
 
 public class Main {
 
@@ -22,21 +25,26 @@ public class Main {
 
             if (cmd.hasOption("i")) {
                 String filename = cmd.getOptionValue("i");
+                logger.info("Start of MazeRunner");
                 logger.info("Reading the maze from file " + filename);
-                BufferedReader reader = new BufferedReader(new FileReader(filename));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    for (int idx = 0; idx < line.length(); idx++) {
-                        if (line.charAt(idx) == '#') {
-                            logger.info("WALL ");
-                        } 
-                        else if (line.charAt(idx) == ' ') {
-                            logger.info("PASS ");
-                        }
-                    }
-                    logger.info(System.lineSeparator());
+
+                System.out.println("Reading the maze from file " + filename);
+                
+                Maze maze = MazeInitializer.initializeMaze(filename);
+                maze.printMaze();
+
+                logger.info("Computing path");
+                MazeExplorer explorer = new MazeExplorer(maze);
+                MazeSolver solver = new MazeSolver(maze, explorer);
+
+                if (solver.solve()) {
+                    logger.info("Path computed: " + explorer.getPath());
+                } 
+                else {
+                    logger.info("No path found");
                 }
-                reader.close();
+                
+                
             } 
             else {
                 logger.error("Use -i flag to specify the maze file.");
@@ -47,9 +55,11 @@ public class Main {
         } 
         catch (Exception e) {
             logger.error("/!\\\\ An error has occured /!\\\\", e);
+            logger.warn("PATH NOT COMPUTED");
+
+            e.printStackTrace();
         }
-        logger.info("Computing path");
-        logger.info("PATH NOT COMPUTED");
+        
         logger.info("End of MazeRunner");
     }
 }

@@ -2,23 +2,26 @@ package ca.mcmaster.se2aa4.mazerunner.Maze;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MazeInitializer {
-    private final static Logger logger = LogManager.getLogger();
+    public static Maze initializeMaze(String filePath) throws IOException {
+        List<char[]> mazeDataList = new ArrayList<>();
 
-    public static Maze initializeMaze(String file) throws Exception {
-        
-        logger.trace("Start of MazeInitializer");
-        logger.info("Reading the maze from file " + file);
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        
-        char[][] readMaze = reader.lines().map(String::toCharArray).toArray(char[][]::new);
-        
-        reader.close();
-        Maze maze = new Maze(readMaze);
-        logger.trace("End of MazeInitializer");
-        return maze;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                mazeDataList.add(line.toCharArray());
+            }
+        }
+
+        if (mazeDataList.isEmpty()) {
+            throw new IllegalArgumentException("Maze file is empty.");
+        }
+
+        char[][] mazeData = mazeDataList.toArray(new char[0][]);
+        return new Maze(mazeData);
     }
 }
