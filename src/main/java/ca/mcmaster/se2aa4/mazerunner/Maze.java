@@ -44,7 +44,7 @@ public class Maze {
         return null; // No start position
     }
 
-    public Position getEndPosition(Position position) {
+    public Position getEndPosition() {
         for (int i = 0; i < cells.length; i++) {
             if (!isWall(new Position(cells.length - 1, i))) {
                 return new Position(cells.length - 1, i);

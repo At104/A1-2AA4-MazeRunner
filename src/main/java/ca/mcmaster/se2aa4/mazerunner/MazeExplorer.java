@@ -1,37 +1,49 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MazeExplorer {
-    private Position position;
     private Maze maze;
+    private Position position;
+    private Direction direction;
 
     public MazeExplorer(Maze maze) {
         this.maze = maze;
         this.position = maze.getStartPosition();
+        this.direction = new Direction(Direction.DirectionType.RIGHT); // Assume starting direction is right
     }
-    
+
     public Position getPosition() {
         return this.position;
     }
 
-    public void moveLeft() {
-        this.position = new Position(position.getX() - 1, position.getY());
+    public void turnRight() {
+        direction.turnRight();
     }
 
-    public void moveRight() {
-        this.position = new Position(position.getX() + 1, position.getY());
+    public void turnLeft() {
+        direction.turnLeft();
     }
 
-    public void moveUp() {
-        this.position = new Position(position.getX(), position.getY() - 1);
-    }
-
-    public void moveDown() {
-        this.position = new Position(position.getX(), position.getY() + 1);
-    }
-
-    private boolean makeMove(Position newPosition) {
+    public boolean moveForward() {
+        Position newPosition = null;
+        switch (direction.getDirection()) {
+            case UP:
+                newPosition = new Position(position.getX(), position.getY() - 1);
+                break;
+            case RIGHT:
+                newPosition = new Position(position.getX() + 1, position.getY());
+                break;
+            case DOWN:
+                newPosition = new Position(position.getX(), position.getY() + 1);
+                break;
+            case LEFT:
+                newPosition = new Position(position.getX() - 1, position.getY());
+                break;
+        }
         if (isValidMove(newPosition)) {
-            this.position = newPosition;
+            position = newPosition;
             return true;
         }
         return false;
@@ -44,7 +56,8 @@ public class MazeExplorer {
                y >= 0 && y < maze.getDimensions().getY() &&
                !maze.isWall(position);
     }
-    
+
     
 
+   
 }
