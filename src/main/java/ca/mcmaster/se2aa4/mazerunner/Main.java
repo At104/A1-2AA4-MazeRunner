@@ -27,18 +27,17 @@ public class Main {
                 String filename = cmd.getOptionValue("i");
                 logger.info("Start of MazeRunner");
                 logger.info("Reading the maze from file " + filename);
-
-                System.out.println("Reading the maze from file " + filename);
                 
                 Maze maze = MazeInitializer.initializeMaze(filename);
                 maze.printMaze();
 
-                logger.info("Computing path");
+                
                 MazeExplorer explorer = new MazeExplorer(maze);
+                logger.info("Computing path");
                 MazeSolver solver = new MazeSolver(maze, explorer);
 
                 if (solver.solve()) {
-                    logger.info("Path computed: " + explorer.getPath());
+                    System.out.println("Path computed: " + explorer.getPath());
                 } 
                 else {
                     logger.info("No path found");

@@ -1,6 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner.Maze;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ca.mcmaster.se2aa4.mazerunner.Direction;
 import ca.mcmaster.se2aa4.mazerunner.Position;
 import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
@@ -11,6 +14,8 @@ public class MazeExplorer {
     private Position position;
     private Direction direction;
     private Path path;
+
+    private Logger logger = LogManager.getLogger();
 
     public MazeExplorer(Maze maze) {
         this.maze = maze;
@@ -25,11 +30,13 @@ public class MazeExplorer {
 
     public void turnRight() {
         direction = direction.turnRight();
+        logger.info("Turning right");
         path.addInstruction('R');
     }
 
     public void turnLeft() {
         direction = direction.turnLeft();
+        logger.info("Turning left");
         path.addInstruction('L');
     }
 
@@ -37,26 +44,29 @@ public class MazeExplorer {
         Position newPosition = null;
         switch (direction) {
             case UP:
-                newPosition = new Position(position.getX(), position.getY() - 1);
+                newPosition = new Position(position.getX() - 1 , position.getY());
                 break;
             case RIGHT:
-                newPosition = new Position(position.getX() + 1, position.getY());
-                break;
-            case DOWN:
                 newPosition = new Position(position.getX(), position.getY() + 1);
                 break;
+            case DOWN:
+                newPosition = new Position(position.getX() + 1, position.getY());
+                break;
             case LEFT:
-                newPosition = new Position(position.getX() - 1, position.getY());
+                newPosition = new Position(position.getX(), position.getY() - 1);
                 break;
         }
         if (isValidMove(newPosition)) {
+            logger.info("Move is valid");
             this.position = newPosition;
             path.addInstruction('F');
+            logger.info("Going forward");
             return true;
         }
         return false;
     }
 
+    
     private boolean isValidMove(Position position) {
         int x = position.getX();
         int y = position.getY();
@@ -64,7 +74,7 @@ public class MazeExplorer {
                y >= 0 && y < maze.getDimensions().getY() &&
                !maze.isWall(position);
     }
-
+    
     public String getPath() {
         return path.getInstructions();
     }
