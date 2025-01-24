@@ -1,51 +1,35 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class Direction {
-    private DirectionType direction;
+public enum Direction {
+    UP, RIGHT, DOWN, LEFT;
 
-    public Direction(DirectionType initialDirection) {
-        this.direction = initialDirection;
-    }
-
-    public DirectionType getDirection() {
-        return direction;
-    }
-
-    public void turnRight() {
-        switch (direction) {
+    public Direction turnRight() {
+        switch (this) {
             case UP:
-                direction = DirectionType.RIGHT;
-                break;
+                return RIGHT;
             case RIGHT:
-                direction = DirectionType.DOWN;
-                break;
+                return DOWN;
             case DOWN:
-                direction = DirectionType.LEFT;
-                break;
+                return LEFT;
             case LEFT:
-                direction = DirectionType.UP;
-                break;
+                return UP;
+            default:
+                throw new IllegalStateException("Unexpected value: " + this);
         }
     }
 
-    public void turnLeft() {
-        switch (direction) {
+    public Direction turnLeft() {
+        switch (this) {
             case UP:
-                direction = DirectionType.LEFT;
-                break;
+                return LEFT;
             case LEFT:
-                direction = DirectionType.DOWN;
-                break;
+                return DOWN;
             case DOWN:
-                direction = DirectionType.RIGHT;
-                break;
+                return RIGHT;
             case RIGHT:
-                direction = DirectionType.UP;
-                break;
+                return UP;
+            default:
+                throw new IllegalStateException("Unexpected value: " + this);
         }
-    }
-
-    public enum DirectionType {
-        UP, RIGHT, DOWN, LEFT
     }
 }
