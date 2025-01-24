@@ -1,5 +1,7 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Maze;
 
+import ca.mcmaster.se2aa4.mazerunner.Direction;
+import ca.mcmaster.se2aa4.mazerunner.Position;
 import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
 import ca.mcmaster.se2aa4.mazerunner.Path.Path;
 
@@ -12,7 +14,7 @@ public class MazeExplorer {
     public MazeExplorer(Maze maze) {
         this.maze = maze;
         this.position = maze.getStartPosition();
-        this.direction = (position.getY() == 0) ? Direction.RIGHT : Direction.LEFT; // Facing opposite side
+        this.direction = Direction.RIGHT; // Always face right at the start
         this.path = new CanonicalPath();
     }
 
@@ -62,21 +64,5 @@ public class MazeExplorer {
                !maze.isWall(position);
     }
 
-    public boolean solve() {
-        Position endPosition = maze.getEndPosition();
-        while (!position.equals(endPosition)) {
-            if (!moveForward()) {
-                turnRight();
-                if (!moveForward()) {
-                    turnLeft();
-                    turnLeft();
-                    if (!moveForward()) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
 
 }
