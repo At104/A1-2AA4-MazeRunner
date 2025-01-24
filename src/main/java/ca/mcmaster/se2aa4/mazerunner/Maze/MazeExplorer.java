@@ -14,7 +14,7 @@ public class MazeExplorer {
     public MazeExplorer(Maze maze) {
         this.maze = maze;
         this.position = maze.getStartPosition();
-        this.direction = Direction.RIGHT; // Always face right at the start
+        this.direction = Direction.RIGHT; 
         this.path = new CanonicalPath();
     }
 

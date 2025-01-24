@@ -15,14 +15,7 @@ public class MazeSolver {
         Position endPosition = maze.getEndPosition();
         while (!explorer.getPosition().equals(endPosition)) {
             if (!explorer.moveForward()) {
-                explorer.turnRight();
-                if (!explorer.moveForward()) {
-                    explorer.turnLeft();
-                    explorer.turnLeft();
-                    if (!explorer.moveForward()) {
-                        return false;
-                    }
-                }
+                return false; 
             }
         }
         return true;
