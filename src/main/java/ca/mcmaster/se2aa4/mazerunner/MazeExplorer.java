@@ -1,20 +1,19 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
+import ca.mcmaster.se2aa4.mazerunner.Path.Path;
 
 public class MazeExplorer {
     private Maze maze;
     private Position position;
     private Direction direction;
-    private List<Position> path;
+    private Path path;
 
     public MazeExplorer(Maze maze) {
         this.maze = maze;
         this.position = maze.getStartPosition();
-        this.direction = Direction.RIGHT; // Assume starting direction is right
-        this.path = new ArrayList<>();
-        this.path.add(this.position);
+        this.direction = (position.getY() == 0) ? Direction.RIGHT : Direction.LEFT; // Facing opposite side
+        this.path = new CanonicalPath();
     }
 
     public Position getPosition() {
@@ -23,10 +22,12 @@ public class MazeExplorer {
 
     public void turnRight() {
         direction = direction.turnRight();
+        path.addInstruction('R');
     }
 
     public void turnLeft() {
         direction = direction.turnLeft();
+        path.addInstruction('L');
     }
 
     public boolean moveForward() {
@@ -47,7 +48,7 @@ public class MazeExplorer {
         }
         if (isValidMove(newPosition)) {
             this.position = newPosition;
-            this.path.add(newPosition);
+            path.addInstruction('F');
             return true;
         }
         return false;
@@ -78,13 +79,4 @@ public class MazeExplorer {
         return true;
     }
 
-    public void printPath() {
-        char[][] mazeData = maze.getMazeData();
-        for (Position pos : path) {
-            mazeData[pos.getX()][pos.getY()] = '*';
-        }
-        for (char[] row : mazeData) {
-            System.out.println(new String(row));
-        }
-    }
 }
