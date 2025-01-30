@@ -6,9 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 import ca.mcmaster.se2aa4.mazerunner.Direction;
 import ca.mcmaster.se2aa4.mazerunner.Position;
-import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
-import ca.mcmaster.se2aa4.mazerunner.Path.FactorizedPath;
 import ca.mcmaster.se2aa4.mazerunner.Path.Path;
+import ca.mcmaster.se2aa4.mazerunner.Path.FactorizedPath;
 
 public class MazeExplorer {
     private Maze maze;
@@ -41,6 +40,15 @@ public class MazeExplorer {
         path.addInstruction('L');
     }
 
+    private boolean isValidMove(Position position) {
+        int x = position.getX();
+        int y = position.getY();
+        logger.info("Is wall: " + maze.isWall(position));
+        return x >= 0 && x < maze.getDimensions().getX() &&
+               y >= 0 && y < maze.getDimensions().getY() &&
+               !maze.isWall(position);
+    }
+
     public boolean moveForward() {
         Position newPosition = null;
         switch (direction) {
@@ -62,7 +70,7 @@ public class MazeExplorer {
             this.position = newPosition;
             logger.info("Going forward");
             path.addInstruction('F');
-            logger.info("Current path: " + path.getInstructions());
+            //logger.info("Current path: " + path.getInstructions());
             return true;
         }
         logger.info("Move is invalid because of wall at " + newPosition);
@@ -70,16 +78,13 @@ public class MazeExplorer {
     }
 
     
-    private boolean isValidMove(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        logger.info("Is wall: " + maze.isWall(position));
-        return x >= 0 && x < maze.getDimensions().getX() &&
-               y >= 0 && y < maze.getDimensions().getY() &&
-               !maze.isWall(position);
-    }
+    
     
     public String getPath() {
         return path.getInstructions();
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }

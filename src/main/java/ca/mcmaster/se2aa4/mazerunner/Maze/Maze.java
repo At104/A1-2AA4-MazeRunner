@@ -23,11 +23,14 @@ public class Maze {
             for (int j = 0; j < cols; j++) {
                 if (mazeData[i][j] == '#') {
                     this.maze[i][j] = Cell.WALL;
-                } else {
+                } 
+                else if (mazeData[i][j] == ' ') {
                     this.maze[i][j] = Cell.PASS;
                 }
             }
         }
+
+        
 
         this.startPosition = findStartPosition();
         this.endPosition = findEndPosition();

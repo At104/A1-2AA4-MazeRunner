@@ -4,7 +4,6 @@ public class FactorizedPath extends Path {
     private char lastInstruction = '\0';
     private int count = 0;
 
-    //TODO: Check whether it works after full navigation is implemented
     public FactorizedPath() {
         super();
     }

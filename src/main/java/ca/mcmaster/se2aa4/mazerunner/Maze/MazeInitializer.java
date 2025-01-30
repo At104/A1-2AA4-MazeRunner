@@ -3,25 +3,24 @@ package ca.mcmaster.se2aa4.mazerunner.Maze;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MazeInitializer {
+    
     public static Maze initializeMaze(String filePath) throws IOException {
-        List<char[]> mazeDataList = new ArrayList<>();
+        // Read maze from file
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                mazeDataList.add(line.toCharArray());
-            }
-        }
+        char[][] mazeData = reader
+                // Read all lines from the file
+                .lines()
+                // Convert each line to a character array
+                .map(String::toCharArray)
+                // Then collect all the character arrays into a list of character arrays
+                .toArray(char[][]::new);
 
-        if (mazeDataList.isEmpty()) {
-            throw new IllegalArgumentException("Maze file is empty.");
-        }
+        reader.close();
 
-        char[][] mazeData = mazeDataList.toArray(new char[0][]);
-        return new Maze(mazeData);
+        char[][] maze = mazeData;
+        return new Maze(maze);
     }
 }

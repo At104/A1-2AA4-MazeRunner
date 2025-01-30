@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
-import ca.mcmaster.se2aa4.mazerunner.Maze.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 
 public class Main {
 
@@ -34,7 +34,7 @@ public class Main {
                 
                 MazeExplorer explorer = new MazeExplorer(maze);
                 logger.info("Computing path");
-                MazeSolver solver = new MazeSolver(maze, explorer);
+                RightHandSolver solver = new RightHandSolver(maze, explorer);
 
                 if (solver.solve()) {
                     System.out.println("Path computed: " + explorer.getPath());
