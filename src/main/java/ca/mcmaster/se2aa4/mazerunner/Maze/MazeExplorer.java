@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ca.mcmaster.se2aa4.mazerunner.Direction;
 import ca.mcmaster.se2aa4.mazerunner.Position;
 import ca.mcmaster.se2aa4.mazerunner.Path.CanonicalPath;
+import ca.mcmaster.se2aa4.mazerunner.Path.FactorizedPath;
 import ca.mcmaster.se2aa4.mazerunner.Path.Path;
 
 public class MazeExplorer {
@@ -21,7 +22,7 @@ public class MazeExplorer {
         this.maze = maze;
         this.position = maze.getStartPosition();
         this.direction = Direction.RIGHT; 
-        this.path = new CanonicalPath();
+        this.path = new FactorizedPath();
     }
 
     public Position getPosition() {
@@ -59,8 +60,9 @@ public class MazeExplorer {
         if (isValidMove(newPosition)) {
             logger.info("Move is valid");
             this.position = newPosition;
-            path.addInstruction('F');
             logger.info("Going forward");
+            path.addInstruction('F');
+            logger.info("Current path: " + path.getInstructions());
             return true;
         }
         logger.info("Move is invalid because of wall at " + newPosition);
