@@ -4,24 +4,27 @@ public class Position {
     private int row;
     private int col;
 
-    public Position(int row, int col) {
+    public Position(int col, int row) {
         this.row = row;
         this.col = col;
     }
 
-    public int getX() {
-        return row;
-    }
 
-    public int getY() {
+    public int getX() {
         return col;
     }
 
-    public void setX(int row) {
+    public int getY() {
+        return row;
+    }
+
+    
+
+    public void setY(int row) {
         this.row = row;
     }
 
-    public void setY(int col) {
+    public void setX(int col) {
         this.col = col;
     }
 

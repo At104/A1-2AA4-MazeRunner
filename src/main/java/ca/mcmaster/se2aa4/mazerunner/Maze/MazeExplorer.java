@@ -44,16 +44,16 @@ public class MazeExplorer {
         Position newPosition = null;
         switch (direction) {
             case UP:
-                newPosition = new Position(position.getX() - 1 , position.getY());
+                newPosition = new Position(position.getX() , position.getY() -1);
                 break;
             case RIGHT:
-                newPosition = new Position(position.getX(), position.getY() + 1);
+                newPosition = new Position(position.getX() +1 , position.getY());
                 break;
             case DOWN:
-                newPosition = new Position(position.getX() + 1, position.getY());
+                newPosition = new Position(position.getX(), position.getY() +1);
                 break;
             case LEFT:
-                newPosition = new Position(position.getX(), position.getY() - 1);
+                newPosition = new Position(position.getX()-1, position.getY());
                 break;
         }
         if (isValidMove(newPosition)) {
@@ -63,6 +63,7 @@ public class MazeExplorer {
             logger.info("Going forward");
             return true;
         }
+        logger.info("Move is invalid because of wall at " + newPosition);
         return false;
     }
 
@@ -70,6 +71,7 @@ public class MazeExplorer {
     private boolean isValidMove(Position position) {
         int x = position.getX();
         int y = position.getY();
+        logger.info("Is wall: " + maze.isWall(position));
         return x >= 0 && x < maze.getDimensions().getX() &&
                y >= 0 && y < maze.getDimensions().getY() &&
                !maze.isWall(position);

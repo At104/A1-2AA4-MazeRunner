@@ -17,6 +17,7 @@ public class MazeSolver {
 
     public boolean solve() {
         Position endPosition = maze.getEndPosition();
+        logger.info("End position: " + endPosition);
         while (!explorer.getPosition().equals(endPosition)) {
             logger.info("Current position: " + explorer.getPosition());
             if (!explorer.moveForward()) {
