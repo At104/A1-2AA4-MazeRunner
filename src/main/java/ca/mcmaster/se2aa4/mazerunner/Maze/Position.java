@@ -1,4 +1,6 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Maze;
+
+import ca.mcmaster.se2aa4.mazerunner.Path.Direction;
 
 public class Position {
     private int row;
@@ -18,8 +20,6 @@ public class Position {
         return row;
     }
 
-    
-
     public void setY(int row) {
         this.row = row;
     }
@@ -28,9 +28,23 @@ public class Position {
         this.col = col;
     }
 
+
+    public Position move(Direction direction) {
+        switch (direction) {
+            case UP:
+                return new Position(getX() , getY() -1);
+            case RIGHT:
+                return new Position(getX() +1 , getY());
+            case DOWN:
+                return new Position(getX(), getY() +1);
+            case LEFT:
+                return new Position(getX()-1, getY());
+            default:
+                return null; // Should never reach here, but needed to compile
+        }
+    }
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return "(" + row + ", " + col + ")";
     }
 

@@ -1,12 +1,13 @@
-package ca.mcmaster.se2aa4.mazerunner.Maze;
+package ca.mcmaster.se2aa4.mazerunner.Solver;
 
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-import ca.mcmaster.se2aa4.mazerunner.Position;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Position;
 import ca.mcmaster.se2aa4.mazerunner.Path.Path;
+import ca.mcmaster.se2aa4.mazerunner.Path.Direction;
 import ca.mcmaster.se2aa4.mazerunner.Path.FactorizedPath;
 
 public class MazeExplorer {
@@ -50,21 +51,7 @@ public class MazeExplorer {
     }
 
     public boolean moveForward() {
-        Position newPosition = null;
-        switch (direction) {
-            case UP:
-                newPosition = new Position(position.getX() , position.getY() -1);
-                break;
-            case RIGHT:
-                newPosition = new Position(position.getX() +1 , position.getY());
-                break;
-            case DOWN:
-                newPosition = new Position(position.getX(), position.getY() +1);
-                break;
-            case LEFT:
-                newPosition = new Position(position.getX()-1, position.getY());
-                break;
-        }
+        Position newPosition = position.move(direction);
         if (isValidMove(newPosition)) {
             logger.info("Move is valid");
             this.position = newPosition;
@@ -77,14 +64,12 @@ public class MazeExplorer {
         return false;
     }
 
-    
-    
-    
-    public String getPath() {
-        return path.getInstructions();
-    }
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public String getPath() {
+        return path.getInstructions();
     }
 }

@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner.Maze;
 
-import ca.mcmaster.se2aa4.mazerunner.Cell;
-import ca.mcmaster.se2aa4.mazerunner.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

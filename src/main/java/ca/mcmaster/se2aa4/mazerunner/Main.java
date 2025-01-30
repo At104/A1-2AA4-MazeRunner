@@ -5,8 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
-import ca.mcmaster.se2aa4.mazerunner.Maze.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
+import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 
 public class Main {
@@ -32,12 +32,11 @@ public class Main {
                 maze.printMaze();
 
                 
-                MazeExplorer explorer = new MazeExplorer(maze);
                 logger.info("Computing path");
-                RightHandSolver solver = new RightHandSolver(maze, explorer);
+                RightHandSolver solver = new RightHandSolver(maze, new MazeExplorer(maze));
 
                 if (solver.solve()) {
-                    System.out.println("Path computed: " + explorer.getPath());
+                    System.out.println("Path computed: " + solver.getPath());
                 } 
                 else {
                     logger.info("No path found");
