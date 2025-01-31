@@ -6,6 +6,10 @@ public class CanonicalPath extends Path {
         super();
     }
 
+    public CanonicalPath(String path) {
+        super(path);
+    }
+
     @Override
     public void addInstruction(char instruction) {
         if (this.path.length() == 0) {

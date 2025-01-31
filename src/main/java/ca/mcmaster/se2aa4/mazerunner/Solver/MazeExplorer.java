@@ -53,11 +53,9 @@ public class MazeExplorer {
     public boolean moveForward() {
         Position newPosition = position.move(direction);
         if (isValidMove(newPosition)) {
-            logger.info("Move is valid");
             this.position = newPosition;
             logger.info("Going forward");
             path.addInstruction('F');
-            //logger.info("Current path: " + path.getInstructions());
             return true;
         }
         logger.info("Move is invalid because of wall at " + newPosition);
@@ -71,5 +69,9 @@ public class MazeExplorer {
 
     public String getPath() {
         return path.getInstructions();
+    }
+
+    public Maze getMaze() {
+        return maze;
     }
 }

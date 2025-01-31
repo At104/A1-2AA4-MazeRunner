@@ -18,10 +18,6 @@ public class RightHandSolver implements Solver {
     }
 
 
-    public String getPath() {
-        return explorer.getPath();
-    }
-
     @Override
     public boolean solve() {
         Position endPosition = maze.getEndPosition();
