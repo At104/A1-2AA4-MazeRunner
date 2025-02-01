@@ -35,6 +35,18 @@ public class MazeExplorer {
         path.addInstruction('R');
     }
 
+    public Direction getDirection() {
+        return this.direction;
+    }
+
+    public String getPath() {
+        return path.getInstructions();
+    }
+
+    public Maze getMaze() {
+        return this.maze;
+    }
+    
     public void turnLeft() {
         direction = direction.turnLeft();
         logger.info("Turning left");
@@ -63,15 +75,5 @@ public class MazeExplorer {
     }
 
 
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public String getPath() {
-        return path.getInstructions();
-    }
-
-    public Maze getMaze() {
-        return maze;
-    }
+   
 }
