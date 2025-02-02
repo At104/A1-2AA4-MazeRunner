@@ -8,8 +8,13 @@ public class CommandLineUtils {
 
     public CommandLineUtils(String[] args) throws ParseException {
         Options options = new Options();
-        options.addOption("i", true, "Maze file argument");
-        options.addOption("p", true, "Path to verify");
+
+        Option input =  new Option("i",  true, "Maze file argument");
+        Option path = new Option("p", true, "Path to verify");
+        input.setRequired(true);
+        
+        options.addOption(input);
+        options.addOption(path);
 
         CommandLineParser parser = new DefaultParser();
         this.cmd = parser.parse(options, args);

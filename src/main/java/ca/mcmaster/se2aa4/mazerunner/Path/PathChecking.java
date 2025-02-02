@@ -5,6 +5,7 @@ import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 
 public class PathChecking {
+    
     public static boolean verifyPath(MazeExplorer explorer, String path) {
         for (char instruction : path.toCharArray()) {
             switch (instruction) {

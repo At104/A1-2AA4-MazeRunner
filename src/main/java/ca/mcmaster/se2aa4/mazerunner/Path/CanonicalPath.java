@@ -6,10 +6,6 @@ public class CanonicalPath extends Path {
         super();
     }
 
-    public CanonicalPath(String path) {
-        super(path);
-    }
-
     @Override
     public void addInstruction(char instruction) {
         if (this.path.length() == 0) {
@@ -24,6 +20,11 @@ public class CanonicalPath extends Path {
                 this.path.append(" " + instruction);
             }
         }
+    }
+
+    @Override
+    public String getInstructions() {
+        return this.path.toString();
     }
     
 }
