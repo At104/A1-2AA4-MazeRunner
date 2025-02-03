@@ -107,7 +107,7 @@ public class Maze {
 
     /**
      * Print the maze to the console.
-     */
+     
     public void printMaze() {
         for (int i = 0; i < this.maze.length; i++) {
             for (int j = 0; j < this.maze[i].length; j++) {
@@ -120,4 +120,6 @@ public class Maze {
             System.out.println();
         }
     }
+    */
+    
 }

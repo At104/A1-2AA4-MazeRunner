@@ -46,10 +46,10 @@ public class Main {
                     boolean isValid = checker.verifyPath(stringPath);
 
                     if (isValid) {
-                        System.out.println("The path is valid.");
+                        System.out.println("correct path");
                     } 
                     else {
-                        System.out.println("The path is invalid.");
+                        System.out.println("incorrect path");
                     }
                 } 
 
@@ -57,11 +57,11 @@ public class Main {
                     logger.info("Computing path");
                     checker = new FactorizedPathChecking(maze, explorer);
                     String path = checker.computePath();
-                    if (path.equals("No path found")) {
-                        System.out.println("No path found.");
+                    if (path.equals(null)) {
+                        System.out.println("No path found");
                     } 
                     else {
-                        System.out.println("Path computed: " + path);
+                        System.out.println(path);
                     }
                 }
             }

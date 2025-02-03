@@ -18,6 +18,7 @@ public class MazeInitializer {
                 // Then collect all the character arrays into a list of character arrays
                 .toArray(char[][]::new);
 
+        //Close the reader to free up resources
         reader.close();
         // Create a new maze object with the maze data and return it
         return new Maze(mazeData);
