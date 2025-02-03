@@ -6,25 +6,33 @@ public class CanonicalPath extends Path {
         super();
     }
 
+    /**
+     * Add an instruction to the path
+     * @param instruction The instruction to add
+     */
     @Override
     public void addInstruction(char instruction) {
-        if (this.path.length() == 0) {
-            this.path.append(instruction);
+        StringBuilder path = getPath();
+        if (path.length() == 0) {
+            path.append(instruction);
         } 
         else {
-            char lastInstruction = this.path.charAt(this.path.length() - 1);
+            char lastInstruction = path.charAt(path.length() - 1);
             if (lastInstruction == instruction) {
-                this.path.append(instruction);
+                path.append(instruction);
             }
             else {
-                this.path.append(" " + instruction);
+                path.append(" " + instruction);
             }
         }
     }
-
+    /**
+     * Get the instructions in the path
+     * @return {@code String} The instructions in the path
+     */
     @Override
     public String getInstructions() {
-        return this.path.toString();
+        return getPath().toString();
     }
     
 }

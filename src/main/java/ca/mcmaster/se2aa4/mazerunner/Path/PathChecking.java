@@ -5,7 +5,13 @@ import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 
 public class PathChecking {
-    
+
+    /**
+     * Verify if the path is valid from the -p flag
+     * @param explorer
+     * @param path
+     * @return {@code boolean} True if the path is valid, false otherwise
+     */
     public static boolean verifyPath(MazeExplorer explorer, String path) {
         for (char instruction : path.toCharArray()) {
             switch (instruction) {
@@ -26,13 +32,17 @@ public class PathChecking {
         }
         return explorer.getPosition().equals(explorer.getMaze().getEndPosition());
     }
-
+    /**
+     * Compute the path to solve the maze
+     * @param maze
+     * @return {@code String} The path to solve the maze
+     */
     public static String computePath(Maze maze) {
         MazeExplorer explorer = new MazeExplorer(maze);
         RightHandSolver solver = new RightHandSolver(maze, explorer);
 
         if (solver.solve()) {
-            return explorer.getPath();
+            return explorer.getPathInstructions();
         } 
         else {
             return null;

@@ -15,9 +15,12 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) throws IOException {
+        
         try {
+            // Parse command line arguments
             CommandLineUtils cmdHandler = new CommandLineUtils(args);
 
+            // Check if the input file is provided
             if (cmdHandler.hasOption("i")) {
                 String filename = cmdHandler.getOptionValue("i");
                 logger.info("Start of MazeRunner");
@@ -25,12 +28,14 @@ public class Main {
 
                 Maze maze = MazeInitializer.initializeMaze(filename);
                 maze.printMaze();
-
+                // Check if the path option is provided and verify the path
                 if (cmdHandler.hasOption("p")) {
+
                     String stringPath = cmdHandler.getOptionValue("p");
                     logger.info("Verifying path: " + stringPath);
                     MazeExplorer explorer = new MazeExplorer(maze);
                     boolean isValid = PathChecking.verifyPath(explorer, stringPath);
+
                     if (isValid) {
                         System.out.println("The path is valid.");
                     } 
@@ -38,7 +43,7 @@ public class Main {
                         System.out.println("The path is invalid.");
                     }
                 } 
-                
+                // If the -p flag is not provided, compute the path
                 else {
                     logger.info("Computing path");
                     String path = PathChecking.computePath(maze);

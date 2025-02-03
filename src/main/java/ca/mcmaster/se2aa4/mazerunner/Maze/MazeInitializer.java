@@ -19,7 +19,7 @@ public class MazeInitializer {
                 .toArray(char[][]::new);
 
         reader.close();
-
+        // Create a new maze object with the maze data and return it
         char[][] maze = mazeData;
         return new Maze(maze);
     }

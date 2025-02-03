@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner.Path;
 
 public class FactorizedPath extends Path {
+    // Last instruction and its count
     private char lastInstruction = '\0';
     private int count = 0;
 
@@ -8,6 +9,10 @@ public class FactorizedPath extends Path {
         super();
     }
 
+    /**
+     * Add an instruction to the factorized path
+     * @param instruction The instruction to add
+     */
     @Override
     public void addInstruction(char instruction) {
         if (instruction == ' ') return; // Ignore spaces
@@ -25,10 +30,14 @@ public class FactorizedPath extends Path {
             count = 1;
         }
     }
-
+    /**
+     * Get the instructions in the factorized path
+     * @return {@code String} The instructions in the factorized path
+     */
     @Override
     public String getInstructions() {
-        StringBuilder tempPath = new StringBuilder(path);
+        StringBuilder tempPath = new StringBuilder(getPath());
+        // Append last instruction
         if (lastInstruction != '\0') {
             if (count > 1) {
                 tempPath.append(count);
@@ -37,11 +46,13 @@ public class FactorizedPath extends Path {
         }
         return tempPath.toString().trim();
     }
-
+    /**
+     * Helper method to append the last instruction to the path
+     */
     private void appendCompressed() {
         if (count > 1) {
-            path.append(count);
+            getPath().append(count);
         }
-        path.append(lastInstruction).append(" ");
+        getPath().append(lastInstruction).append(" ");
     }
 }

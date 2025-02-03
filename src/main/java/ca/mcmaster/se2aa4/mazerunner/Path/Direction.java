@@ -1,8 +1,13 @@
 package ca.mcmaster.se2aa4.mazerunner.Path;
 
+// Enum for the directions
 public enum Direction {
     UP, RIGHT, DOWN, LEFT;
 
+    /**
+     * Turn the direction to the right
+     * @return {@code Direction} new direction 
+     */
     public Direction turnRight() {
         switch (this) {
             case UP:
@@ -18,6 +23,10 @@ public enum Direction {
         }
     }
 
+    /**
+     * Turn the direction to the left
+     * @return {@code Direction} new direction 
+     */
     public Direction turnLeft() {
         switch (this) {
             case UP:
