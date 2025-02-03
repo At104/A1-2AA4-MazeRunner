@@ -15,54 +15,52 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) throws IOException {
-        
         try {
-            // Parse command line arguments
             CommandLineUtils cmdHandler = new CommandLineUtils(args);
 
-            // Check if the input file is provided
             if (cmdHandler.hasOption("i")) {
                 String filename = cmdHandler.getOptionValue("i");
                 logger.info("Start of MazeRunner");
                 logger.info("Reading the maze from file " + filename);
 
                 Maze maze = MazeInitializer.initializeMaze(filename);
-                maze.printMaze();
-                // Check if the path option is provided and verify the path
-                if (cmdHandler.hasOption("p")) {
+                //maze.printMaze();
 
-                    String stringPath = cmdHandler.getOptionValue("p");
+                if (cmdHandler.hasOption("p")) {
+                    String stringPath = cmdHandler.getOptionValue("p").replaceAll("\\s+","");
                     logger.info("Verifying path: " + stringPath);
                     MazeExplorer explorer = new MazeExplorer(maze);
-                    boolean isValid = PathChecking.verifyPath(explorer, stringPath);
+                    PathChecking checker = new PathChecking();
+
+                    boolean isValid;
+                    if (checker.isFactorizedPath(stringPath)) {
+                        logger.info("Verifying factorized path");
+                        
+                        isValid = checker.verifyFactorizedPath(explorer, stringPath);
+                    } 
+                    else {
+                        isValid = checker.verifyCanonicalPath(explorer, stringPath);
+                    }
 
                     if (isValid) {
                         System.out.println("The path is valid.");
-                    } 
-                    else {
+                    } else {
                         System.out.println("The path is invalid.");
                     }
-                } 
-                // If the -p flag is not provided, compute the path
-                else {
+                } else {
                     logger.info("Computing path");
                     String path = PathChecking.computePath(maze);
-                    if (path == null) {
+                    if (path.equals("No path found")) {
                         System.out.println("No path found.");
-                    } 
-                    else {
+                    } else {
                         System.out.println("Path computed: " + path);
                     }
-                    
                 }
             }
-        } 
-        catch (ParseException e) {
+        } catch (ParseException e) {
             logger.error("Failed to parse command line arguments", e);
         }
-        catch (Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
-            e.printStackTrace();
-        }
     }
+
+    
 }
