@@ -34,8 +34,6 @@ public class Main {
                     String stringPath = cmdHandler.getOptionValue("p").replaceAll("\\s+","");
                     logger.info("Verifying path: " + stringPath);
                     
-                    
-
                     if (PathChecking.isFactorizedPath(stringPath)) {
                         logger.info("Verifying factorized path");
                         checker = new FactorizedPathChecking(maze, explorer);
@@ -54,7 +52,7 @@ public class Main {
                         System.out.println("The path is invalid.");
                     }
                 } 
-                
+
                 else {
                     logger.info("Computing path");
                     checker = new FactorizedPathChecking(maze, explorer);

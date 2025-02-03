@@ -17,14 +17,10 @@ public abstract class PathChecking {
         this.explorer = explorer;
     }
 
-    protected Maze getMaze() {
-        return maze;
-    }
-
     protected MazeExplorer getExplorer() {
         return explorer;
     }
-
+    
     /**
      * Verify if the path is valid
      * @param path

@@ -31,7 +31,8 @@ public class FactorizedPathChecking extends PathChecking {
                         return false;
                     }
                 }
-            } else {
+            } 
+            else {
                 if (!processInstruction(instruction)) {
                     return false;
                 }

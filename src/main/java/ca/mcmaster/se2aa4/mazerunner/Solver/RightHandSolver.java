@@ -34,6 +34,7 @@ public class RightHandSolver implements Solver {
         logger.info("Start position: " + explorer.getPosition());
         logger.info("End position: " + endPosition);
 
+        // Move the explorer until the end position is reached
         while (!explorer.getPosition().equals(endPosition)) {
             logger.info("Current position: " + explorer.getPosition());
             logger.info("Current direction: " + explorer.getDirection());
