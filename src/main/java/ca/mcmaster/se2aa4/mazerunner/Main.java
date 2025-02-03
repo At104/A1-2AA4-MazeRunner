@@ -2,7 +2,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
-import ca.mcmaster.se2aa4.mazerunner.Path.PathChecking;
+import ca.mcmaster.se2aa4.mazerunner.PathChecking.CanonicalPathChecking;
+import ca.mcmaster.se2aa4.mazerunner.PathChecking.FactorizedPathChecking;
+import ca.mcmaster.se2aa4.mazerunner.PathChecking.PathChecking;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,45 +24,52 @@ public class Main {
                 String filename = cmdHandler.getOptionValue("i");
                 logger.info("Start of MazeRunner");
                 logger.info("Reading the maze from file " + filename);
-
-                Maze maze = MazeInitializer.initializeMaze(filename);
-                //maze.printMaze();
+                // Initialize the maze and the classes to solve it
+                MazeInitializer initializer = new MazeInitializer();
+                Maze maze = initializer.initializeMaze(filename);
+                MazeExplorer explorer = new MazeExplorer(maze);
+                PathChecking checker;
 
                 if (cmdHandler.hasOption("p")) {
                     String stringPath = cmdHandler.getOptionValue("p").replaceAll("\\s+","");
                     logger.info("Verifying path: " + stringPath);
-                    MazeExplorer explorer = new MazeExplorer(maze);
-                    PathChecking checker = new PathChecking();
+                    
+                    
 
-                    boolean isValid;
-                    if (checker.isFactorizedPath(stringPath)) {
+                    if (PathChecking.isFactorizedPath(stringPath)) {
                         logger.info("Verifying factorized path");
-                        
-                        isValid = checker.verifyFactorizedPath(explorer, stringPath);
+                        checker = new FactorizedPathChecking(maze, explorer);
                     } 
                     else {
-                        isValid = checker.verifyCanonicalPath(explorer, stringPath);
+                        logger.info("Verifying canonical path");
+                        checker = new CanonicalPathChecking(maze, explorer);
                     }
+
+                    boolean isValid = checker.verifyPath(stringPath);
 
                     if (isValid) {
                         System.out.println("The path is valid.");
-                    } else {
+                    } 
+                    else {
                         System.out.println("The path is invalid.");
                     }
-                } else {
+                } 
+                
+                else {
                     logger.info("Computing path");
-                    String path = PathChecking.computePath(maze);
+                    checker = new FactorizedPathChecking(maze, explorer);
+                    String path = checker.computePath();
                     if (path.equals("No path found")) {
                         System.out.println("No path found.");
-                    } else {
+                    } 
+                    else {
                         System.out.println("Path computed: " + path);
                     }
                 }
             }
-        } catch (ParseException e) {
+        } 
+        catch (ParseException e) {
             logger.error("Failed to parse command line arguments", e);
         }
     }
-
-    
 }

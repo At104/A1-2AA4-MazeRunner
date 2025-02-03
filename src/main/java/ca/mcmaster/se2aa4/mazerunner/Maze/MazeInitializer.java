@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class MazeInitializer {
     
-    public static Maze initializeMaze(String filePath) throws IOException {
+    public Maze initializeMaze(String filePath) throws IOException {
         // Read maze from file
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
