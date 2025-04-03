@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.mazerunner.PathChecking;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
-
+import ca.mcmaster.se2aa4.mazerunner.Solver.Solver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +33,7 @@ public abstract class PathChecking {
      * @return {@code String} The path to solve the maze
      */
     public String computePath() {
-        RightHandSolver solver = new RightHandSolver(maze, explorer);
+        Solver solver = new RightHandSolver(maze, explorer);
 
         if (solver.solve()) {
             return explorer.getPathInstructions();
