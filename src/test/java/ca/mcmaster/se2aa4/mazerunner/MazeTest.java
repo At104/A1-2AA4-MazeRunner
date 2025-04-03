@@ -3,33 +3,36 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Position;
+import ca.mcmaster.se2aa4.mazerunner.Maze.Cell;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
-import ca.mcmaster.se2aa4.mazerunner.Solver.Solver;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.io.IOException;
 
 class MazeTest {
     private Maze maze;
-    private Solver solver;
     private MazeInitializer mazeInitializer = new MazeInitializer();
-    private MazeExplorer explorer;
-    private static final Logger logger = LogManager.getLogger();
   
     @BeforeEach
     void setUp() throws IOException {
         maze = mazeInitializer.initializeMaze("examples/medium.maz.txt");
-        explorer = new MazeExplorer(maze);
-        solver = new RightHandSolver(maze, explorer);
     }
 
+    @Test
+    void testCellTypes() {
+        // Test the WALL cell type
+        Cell wallCell = Cell.WALL;
+        assertEquals(Cell.WALL, wallCell);
+        
+        // Test the PASS cell type
+        Cell passCell = Cell.PASS;
+        assertEquals(Cell.PASS, passCell);
+    }
 
     @Test
     void testMazeInitialization() {
@@ -50,4 +53,12 @@ class MazeTest {
         assertEquals(31, dimensions.getX()); // Columns
         assertEquals(31, dimensions.getY()); // Rows
     }
+
+    @Test
+    void testMazeSolver() {
+        MazeExplorer explorer = new MazeExplorer(maze);
+        RightHandSolver solver = new RightHandSolver(maze, explorer);
+        assertTrue(solver.solve());
+    }
+    
 } 

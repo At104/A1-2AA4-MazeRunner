@@ -1,6 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
@@ -13,19 +12,13 @@ import org.apache.logging.log4j.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
-import java.io.IOException;
 
 class PathTest {
-    private Maze maze;
     private MazeInitializer mazeInitializer = new MazeInitializer();
     private MazeExplorer explorer;
     private static final Logger logger = LogManager.getLogger();
   
-    @BeforeEach
-    void setUp() throws IOException {
-        maze = mazeInitializer.initializeMaze("examples/medium.maz.txt");
-        explorer = new MazeExplorer(maze);
-    }
+   
 
     @Test
     public void testPathEquivalence() throws Exception {
