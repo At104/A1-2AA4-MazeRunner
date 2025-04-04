@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.mazerunner.PathChecking;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 
+import java.util.Iterator;
+
 public class FactorizedPathChecking extends PathChecking {
 
     public FactorizedPathChecking(Maze maze, MazeExplorer explorer) {
@@ -12,32 +14,16 @@ public class FactorizedPathChecking extends PathChecking {
     @Override
     public boolean verifyPath(String path) {
         MazeExplorer explorer = getExplorer();
-        for (int i = 0; i < path.length(); i++) {
-            char instruction = path.charAt(i);
-            if (Character.isDigit(instruction)) {
-                int count = 0;
-                // Parse the entire number
-                while (i < path.length() && Character.isDigit(path.charAt(i))) {
-                    count = count * 10 + Character.getNumericValue(path.charAt(i));
-                    i++;
-                }
-                if (i >= path.length()) {
-                    
-                    return false;
-                }
-                char nextInstruction = path.charAt(i);
-                for (int j = 0; j < count; j++) {
-                    if (!processInstruction(nextInstruction)) {
-                        return false;
-                    }
-                }
-            } 
-            else {
-                if (!processInstruction(instruction)) {
-                    return false;
-                }
+        
+        // Use the iterator to process each instruction
+        Iterator<Character> iterator = getPathIterator(path);
+        while (iterator.hasNext()) {
+            char instruction = iterator.next();
+            if (!processInstruction(instruction)) {
+                return false;
             }
         }
+        
         boolean result = explorer.getPosition().equals(explorer.getMaze().getEndPosition());
         return result;
     }
@@ -52,18 +38,21 @@ public class FactorizedPathChecking extends PathChecking {
             return "";
         }
         
-        // Strip all spaces from the input
-        canonicalPath = canonicalPath.replaceAll("\\s+", "");
-        
+        // Iterate through the canonical path and count consecutive instructions
         StringBuilder factorizedPath = new StringBuilder();
-        char currentInstruction = canonicalPath.charAt(0);
+        Iterator<Character> iterator = new PathIterator(canonicalPath);
+        
+        if (!iterator.hasNext()) {
+            return "";
+        }
+        
+        char currentInstruction = iterator.next();
         int count = 1;
         
-        for (int i = 1; i < canonicalPath.length(); i++) {
-            char instruction = canonicalPath.charAt(i);
+        while (iterator.hasNext()) {
+            char instruction = iterator.next();
             
             if (instruction == currentInstruction) {
-                // Same instruction, increment count
                 count++;
             } else {
                 // Different instruction, append the current count and instruction

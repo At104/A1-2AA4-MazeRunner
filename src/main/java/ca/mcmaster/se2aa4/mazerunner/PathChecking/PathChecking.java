@@ -12,6 +12,8 @@ import ca.mcmaster.se2aa4.mazerunner.Solver.Solver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Iterator;
+
 public abstract class PathChecking {
     private static final Logger logger = LogManager.getLogger();
     private MazeExplorer explorer;
@@ -82,5 +84,14 @@ public abstract class PathChecking {
         }
         
         return command.execute();
+    }
+    
+    /**
+     * Get an iterator for the given path string
+     * @param path The path string to iterate through
+     * @return {@code Iterator<Character>} An iterator for the path
+     */
+    protected Iterator<Character> getPathIterator(String path) {
+        return new PathIterator(path);
     }
 }

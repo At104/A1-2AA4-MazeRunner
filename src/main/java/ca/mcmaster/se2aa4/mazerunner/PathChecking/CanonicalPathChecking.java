@@ -3,6 +3,8 @@ package ca.mcmaster.se2aa4.mazerunner.PathChecking;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 
+import java.util.Iterator;
+
 public class CanonicalPathChecking extends PathChecking {
 
     public CanonicalPathChecking(Maze maze, MazeExplorer explorer) {
@@ -12,11 +14,16 @@ public class CanonicalPathChecking extends PathChecking {
     @Override
     public boolean verifyPath(String path) {
         MazeExplorer explorer = getExplorer();
-        for (char instruction : path.toCharArray()) {
+        
+        // Use the iterator to process each instruction
+        Iterator<Character> iterator = getPathIterator(path);
+        while (iterator.hasNext()) {
+            char instruction = iterator.next();
             if (!processInstruction(instruction)) {
                 return false;
             }
         }
+        
         boolean result = explorer.getPosition().equals(explorer.getMaze().getEndPosition());
         return result;
     }
@@ -27,30 +34,12 @@ public class CanonicalPathChecking extends PathChecking {
      * @return {@code String} The canonical path
      */
     public static String toCanonicalPath(String factorizedPath) {
-        // Strip all spaces from the input
-        factorizedPath = factorizedPath.replaceAll("\\s+", "");
-        
+        // Use the PathIterator to convert to canonical form
         StringBuilder canonicalPath = new StringBuilder();
+        Iterator<Character> iterator = new PathIterator(factorizedPath);
         
-        for (int i = 0; i < factorizedPath.length(); i++) {
-            char instruction = factorizedPath.charAt(i);
-            if (Character.isDigit(instruction)) {
-                int count = 0;
-                // Parse the entire number
-                while (i < factorizedPath.length() && Character.isDigit(factorizedPath.charAt(i))) {
-                    count = count * 10 + Character.getNumericValue(factorizedPath.charAt(i));
-                    i++;
-                }
-                if (i >= factorizedPath.length()) {
-                    return canonicalPath.toString();
-                }
-                char nextInstruction = factorizedPath.charAt(i);
-                for (int j = 0; j < count; j++) {
-                    canonicalPath.append(nextInstruction);
-                }
-            } else if (instruction == 'F' || instruction == 'L' || instruction == 'R') {
-                canonicalPath.append(instruction);
-            }
+        while (iterator.hasNext()) {
+            canonicalPath.append(iterator.next());
         }
         
         return canonicalPath.toString();
