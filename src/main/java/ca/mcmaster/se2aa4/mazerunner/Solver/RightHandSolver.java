@@ -2,65 +2,53 @@ package ca.mcmaster.se2aa4.mazerunner.Solver;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Position;
-
+import ca.mcmaster.se2aa4.mazerunner.Command.MoveForwardCommand;
+import ca.mcmaster.se2aa4.mazerunner.Command.TurnLeftCommand;
+import ca.mcmaster.se2aa4.mazerunner.Command.TurnRightCommand;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RightHandSolver implements Solver {
-    // Initialize the maze and explorer
-    private Maze maze;
-    private MazeExplorer explorer;
-    private Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
+    private final Maze maze;
+    private final MazeExplorer explorer;
 
-    /**
-     * Constructor for RightHandSolver
-     * @param maze
-     * @param explorer
-     */
     public RightHandSolver(Maze maze, MazeExplorer explorer) {
         this.maze = maze;
         this.explorer = explorer;
     }
 
-    /**
-     * Solve the maze using the right-hand method
-     * @return {@code boolean} Whether the maze was solved
-     */
     @Override
     public boolean solve() {
-        // Get the start and end positions
         Position endPosition = maze.getEndPosition();
         logger.info("Start position: " + explorer.getPosition());
         logger.info("End position: " + endPosition);
 
-        // Move the explorer until the end position is reached
         while (!explorer.getPosition().equals(endPosition)) {
-            logger.info("Current position: " + explorer.getPosition());
-            logger.info("Current direction: " + explorer.getDirection());
+            Position currentPos = explorer.getPosition();
+            Position rightPos = currentPos.move(explorer.getDirection().turnRight());
+            Position forwardPos = currentPos.move(explorer.getDirection());
+            Position leftPos = currentPos.move(explorer.getDirection().turnLeft());
 
-            // Check if the cells around are walls
-            Position leftPosition = explorer.getPosition().move(explorer.getDirection().turnLeft());
-            Position rightPosition = explorer.getPosition().move(explorer.getDirection().turnRight());
-            Position forwardPosition = explorer.getPosition().move(explorer.getDirection());
+            boolean rightWall = maze.isWall(rightPos);
+            boolean forwardWall = maze.isWall(forwardPos);
+            boolean leftWall = maze.isWall(leftPos);
 
-            // If the right cell is not a wall, turn right
-            if (!maze.isWall(rightPosition)) {
-                explorer.turnRight();      
-            }
-            // If the forward cell is a wall, turn left
-            else if (maze.isWall(forwardPosition)) {
-                if (maze.isWall(leftPosition)) {
-                    explorer.turnRight();
-                    explorer.turnRight();
-                }
+            if (!rightWall) {
+                new TurnRightCommand(explorer).execute();
+            } 
+            else if (forwardWall) {
+                if (leftWall) {
+                    new TurnRightCommand(explorer).execute();
+                    new TurnRightCommand(explorer).execute();
+                } 
                 else {
-                    explorer.turnLeft();
+                    new TurnLeftCommand(explorer).execute();
                 }
             }
             // Move forward after turning
-            explorer.moveForward();
-                
+            new MoveForwardCommand(explorer).execute();
         }
 
         logger.info("End position reached: " + explorer.getPosition());

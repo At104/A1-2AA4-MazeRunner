@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.mazerunner.Maze;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.util.Iterator;
 
 public class Maze {
 
@@ -33,39 +34,76 @@ public class Maze {
             }
         }
 
-        
-
         this.startPosition = findStartPosition();
         this.endPosition = findEndPosition();
-
     }
+
+    
+    
+    /**
+     * Get a column iterator for the maze
+     * @return Iterator<Cell> that traverses the maze column by column
+     */
+    public Iterator<Cell> getColumnIterator() {
+        return new ColumnIterator(maze);
+    }
+
+    
+
     /**
      * Find the start position of the maze.
      * @return {@code Position} The start position
      */
     private Position findStartPosition() {
-        for (int i = 0; i < this.maze.length; i++) {
-            if (this.maze[i][0] == Cell.PASS) {
-                logger.info("Found start position at: ({}, 0)", i);
-                return new Position(0,i);
+        Iterator<Cell> colIterator = getColumnIterator();
+        int row = 0;
+        while (colIterator.hasNext()) {
+            Cell cell = colIterator.next();
+            if (cell == Cell.PASS) {
+                logger.info("Found start position at: (0, {})", row);
+                return new Position(0, row);
+            }
+            row++;
+            if (row >= maze.length) {
+                row = 0;
             }
         }
         throw new IllegalArgumentException("No start position found in the first column.");
     }
+
     /**
      * Find the end position of the maze.
      * @return {@code Position} The end position
      */
     private Position findEndPosition() {
-        int lastCol = this.maze[0].length - 1;
-        for (int i = 0; i < this.maze.length; i++) {
-            if (this.maze[i][lastCol] == Cell.PASS) {
-                logger.info("Found end position at: ({}, {})", i, lastCol);
-                return new Position(lastCol,i);
+        int lastCol = maze[0].length - 1;
+        Iterator<Cell> colIterator = getColumnIterator();
+        int currentCol = 0;
+        int row = 0;
+        
+        // Skip to the last column
+        while (currentCol < lastCol && colIterator.hasNext()) {
+            colIterator.next();
+            row++;
+            if (row >= maze.length) {
+                row = 0;
+                currentCol++;
             }
         }
+        
+        // Check the last column
+        while (colIterator.hasNext()) {
+            Cell cell = colIterator.next();
+            if (cell == Cell.PASS) {
+                logger.info("Found end position at: ({}, {})", lastCol, row);
+                return new Position(lastCol, row);
+            }
+            row++;
+        }
+        
         throw new IllegalArgumentException("No end position found in the last column.");
     }
+
     /**
      * Get the cell at a given position.
      * @param position
@@ -74,6 +112,7 @@ public class Maze {
     public Cell getCell(Position position) {
         return this.maze[position.getY()][position.getX()];
     }
+
     /**
      * Check if a given position is a wall.
      * @param position
@@ -90,6 +129,7 @@ public class Maze {
     public Position getStartPosition() {
         return startPosition;
     }
+
     /**
      * Get the end position of the maze.
      * @return {@code Position} End position 
@@ -97,6 +137,7 @@ public class Maze {
     public Position getEndPosition() {
         return endPosition;
     }
+
     /**
      * Get the dimensions of the maze.
      * @return {@code Position} The dimensions as a Position
@@ -104,6 +145,7 @@ public class Maze {
     public Position getDimensions() {
         return new Position(this.maze[0].length,this.maze.length);
     }
+
 
     /**
      * Print the maze to the console.
