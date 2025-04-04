@@ -1,9 +1,14 @@
 package ca.mcmaster.se2aa4.mazerunner.PathChecking;
 
+import ca.mcmaster.se2aa4.mazerunner.Command.Command;
+import ca.mcmaster.se2aa4.mazerunner.Command.MoveForwardCommand;
+import ca.mcmaster.se2aa4.mazerunner.Command.TurnLeftCommand;
+import ca.mcmaster.se2aa4.mazerunner.Command.TurnRightCommand;
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import ca.mcmaster.se2aa4.mazerunner.Solver.RightHandSolver;
 import ca.mcmaster.se2aa4.mazerunner.Solver.Solver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,53 +16,6 @@ public abstract class PathChecking {
     private static final Logger logger = LogManager.getLogger();
     private MazeExplorer explorer;
     private Maze maze;
-
-    /**
-     * Command interface defining the contract for all maze movement commands
-     */
-    private interface Command {
-        /**
-         * Executes the command
-         * @return boolean indicating if the command was executed successfully
-         */
-        boolean execute();
-    }
-
-    /**
-     * Command for moving forward in the maze
-     */
-    private class MoveForwardCommand implements Command {
-        @Override
-        public boolean execute() {
-            if (!explorer.moveForward()) {
-                logger.info("Move forward failed at position: " + explorer.getPosition());
-                return false;
-            }
-            return true;
-        }
-    }
-
-    /**
-     * Command for turning left in the maze
-     */
-    private class TurnLeftCommand implements Command {
-        @Override
-        public boolean execute() {
-            explorer.turnLeft();
-            return true;
-        }
-    }
-
-    /**
-     * Command for turning right in the maze
-     */
-    private class TurnRightCommand implements Command {
-        @Override
-        public boolean execute() {
-            explorer.turnRight();
-            return true;
-        }
-    }
 
     public PathChecking(Maze maze, MazeExplorer explorer) {
         this.maze = maze;
@@ -110,13 +68,13 @@ public abstract class PathChecking {
         
         switch (instruction) {
             case 'F':
-                command = new MoveForwardCommand();
+                command = new MoveForwardCommand(explorer);
                 break;
             case 'L':
-                command = new TurnLeftCommand();
+                command = new TurnLeftCommand(explorer);
                 break;
             case 'R':
-                command = new TurnRightCommand();
+                command = new TurnRightCommand(explorer);
                 break;
             default:
                 logger.info("Invalid instruction: " + instruction);
