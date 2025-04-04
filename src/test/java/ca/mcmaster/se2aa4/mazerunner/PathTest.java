@@ -4,14 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import ca.mcmaster.se2aa4.mazerunner.Maze.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Maze.MazeInitializer;
-import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
+import ca.mcmaster.se2aa4.mazerunner.PathChecking.PathChecking;
 import ca.mcmaster.se2aa4.mazerunner.PathChecking.CanonicalPathChecking;
 import ca.mcmaster.se2aa4.mazerunner.PathChecking.FactorizedPathChecking;
+import ca.mcmaster.se2aa4.mazerunner.Solver.MazeExplorer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 
 class PathTest {
     private MazeInitializer mazeInitializer = new MazeInitializer();
@@ -76,5 +78,22 @@ class PathTest {
             largePath.append("F");
         }
         assertEquals("100F", FactorizedPathChecking.toFactorizedPath(largePath.toString()));
+    }
+
+    @Test
+    void testValidPath() throws IOException {
+        Maze maze = mazeInitializer.initializeMaze("examples/straight.maz.txt");
+        String[] paths = {
+            "FFFF",
+            "4F",
+            "2F 2R 2L 2F",
+            "2F 2L 2R 2F",
+            "FRLRLFFF"
+        };
+        for (String path : paths) {
+            MazeExplorer explorer = new MazeExplorer(maze);
+            PathChecking checker = new FactorizedPathChecking(maze, explorer);
+            assertTrue(checker.verifyPath(path));
+        }
     }
 } 
